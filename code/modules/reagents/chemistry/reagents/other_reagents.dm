@@ -3598,3 +3598,34 @@
 
 	exposed_mob.Stun(4 SECONDS)
 	exposed_mob.petrify(reac_volume * reagent_to_time_conversion)
+
+// Makes those who drank this wide and low
+/datum/reagent/widejuice
+	name = "Wide Juice"
+	description = "Shiny liquid, that makes those who drank this become wider and lower."
+	metabolization_rate = 2.5 * REAGENTS_METABOLISM
+	taste_description = "sour"
+	color = "#e2ff3b"
+	overdose_threshold = 30
+
+/datum/reagent/widejuice/on_mob_life(mob/living/carbon/affected_mob, seconds_per_tick, times_fired)
+	..()
+	if(!istype(affected_mob))
+		return
+
+	if(!affected_mob.has_status_effect(/datum/status_effect/reagent_effect/widened))
+		affected_mob.apply_status_effect(/datum/status_effect/reagent_effect/widened)
+		to_chat(affected_mob, span_warning("You feel like your body has become wider."))
+
+/datum/reagent/widejuice/on_mob_end_metabolize(mob/living/affected_mob)
+	. = ..()
+	affected_mob.remove_status_effect(/datum/status_effect/reagent_effect/widened)
+	to_chat(affected_mob, span_warning("You shrank back to your normal form."))
+
+/datum/reagent/widejuice/overdose_start(mob/living/carbon/affected_mob, seconds_per_tick, metabolization_ratio)
+	. = ..()
+	if(!istype(affected_mob))
+		return
+
+	if(affected_mob.adjust_tox_loss(0.35 * seconds_per_tick * metabolization_rate, updating_health = FALSE, metabolization_rate += 2 * REAGENTS_METABOLISM))
+		return UPDATE_MOB_HEALTH

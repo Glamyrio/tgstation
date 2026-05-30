@@ -82,3 +82,25 @@
 	if(!QDELETED(src))
 		stack_trace("Despite nuking the reagent from the mob, [owner] still has [type]")
 		qdel(src)
+
+/datum/status_effect/reagent_effect/widened
+	id = "reagent_widejuice"
+
+/datum/status_effect/reagent_effect/widened/on_apply()
+	if(!owner)
+		return FALSE
+
+	var/matrix/M = matrix(owner.transform)
+	M.Scale(1.75, 1)
+
+	animate(owner, transform = M, time = 10)
+	return TRUE
+
+/datum/status_effect/reagent_effect/widened/on_remove()
+	if(!owner)
+		return
+
+	var/matrix/M = matrix(owner.transform)
+	M.Scale(0.5, 1)
+
+	animate(owner, transform = M, time = 10)

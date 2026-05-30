@@ -1149,3 +1149,10 @@
 	required_reagents = list(/datum/reagent/consumable/nutriment/protein = 1)
 	required_catalysts = list(/datum/reagent/toxin/carnivorousblood = 1)
 	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_UNIQUE
+
+/datum/chemical_reaction/widejuice
+	results = list(/datum/reagent/widejuice = 1)
+	required_reagents = list(/datum/reagent/toxin/mutagen = 3, /datum/reagent/toxin = 1, /datum/reagent/nitrogen = 3, /datum/reagent/medicine/c2/multiver  = 1)
+	mix_message = "the mixture seethes and sparkles."
+	required_temp = 460
+	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_UNIQUE | REACTION_TAG_OTHER
